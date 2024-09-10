@@ -14,6 +14,7 @@ DESTINATION_PATH = os.path.join(
 DOCUMENT_MIME_TYPES = {
     "DOC": {"MIME Type": "application/msword", "Output": ["DOC", "DOCX"]},
     "DOCX": {"MIME Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Output": ["DOCX"]},
+    "PDF": {"MIME Type": "application/pdf", "Output": ["PDF"]},
     "PPT": {"MIME Type": "application/vnd.ms-powerpoint", "Output": ["PPT", "PPTX"]},
     "PPTX": {"MIME Type": "application/vnd.openxmlformats-officedocument.presentationml.presentation", "Output": ["PPTX"]},
     "XLS": {"MIME Type": "application/vnd.ms-excel", "Output": ["XLS", "XLSX"]},
@@ -48,6 +49,7 @@ def translate_document(project_id: str, file_path: str, target_locale: str) -> t
             "parent": parent,
             "target_language_code": target_locale,
             "document_input_config": document_input_config,
+            "is_translate_native_pdf_only": True
         }
     )
 
@@ -100,14 +102,14 @@ def main():
                 output_file.write(response.document_translation.byte_stream_outputs[0])
         except Exception as e:
             print(f"An error occurred while translating {source_file_path}: {str(e)}")
-            with open("error.log", "a") as error_file:
+            with open("error.log", "a", encoding="utf-8", errors="ignore") as error_file:
                 error_file.write(f"{source_file_path}\n") 
             error_log_path = os.path.join(os.path.dirname(destination_file_path), "error.log")
             if os.path.exists(error_log_path):
-                with open(error_log_path, "r") as error_file:
+                with open(error_log_path, "r", encoding="utf-8", errors="ignore") as error_file:
                     if source_file_path in error_file.read():
                         continue
-            with open(error_log_path, "a") as error_file:
+            with open(error_log_path, "a", encoding="utf-8", errors="ignore") as error_file:
                 error_file.write(f"{source_file_path}\n")
 
 if __name__ == "__main__":
