@@ -9,6 +9,8 @@ SOURCE_PATH = r"C:\Users\cyrus\OneDrive - Vocational Training Council - Staff\AY
 DESTINATION_PATH = os.path.join(
     r"C:\Users\cyrus\OneDrive - Vocational Training Council - Staff\Translated TLP\\", TARGET_LOCALE
 )
+
+
 DOCUMENT_MIME_TYPES = {
     "DOC": {"MIME Type": "application/msword", "Output": ["DOC", "DOCX"]},
     "DOCX": {"MIME Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Output": ["DOCX"]},
@@ -99,6 +101,13 @@ def main():
         except Exception as e:
             print(f"An error occurred while translating {source_file_path}: {str(e)}")
             with open("error.log", "a") as error_file:
+                error_file.write(f"{source_file_path}\n") 
+            error_log_path = os.path.join(os.path.dirname(destination_file_path), "error.log")
+            if os.path.exists(error_log_path):
+                with open(error_log_path, "r") as error_file:
+                    if source_file_path in error_file.read():
+                        continue
+            with open(error_log_path, "a") as error_file:
                 error_file.write(f"{source_file_path}\n")
 
 if __name__ == "__main__":
