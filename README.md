@@ -1,7 +1,7 @@
 # TLP-Translator
-
+TLP means teaching learning packages for non-English native students.
 This simple script helps you translate all Microsoft Office documents and PDF in a folder recursively.
-For my use case, I run this script target to a share drive (Onedrive), translate all files, and saves it back to another folder.
+Runs this script target to a share drive (Onedrive), translate all files, and saves it back to another folder.
 
 ## Setup
 
